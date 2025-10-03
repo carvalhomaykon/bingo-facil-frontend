@@ -1,0 +1,25 @@
+<app-auth-layout
+    title="Login"
+    primaryBtnText="Entrar"
+    secundaryBtnText="Não tem conta? Cadastre-se."
+    secundaryBtnLink="/signup"
+    (click)="submit()"
+>
+    <form> 
+        <app-primary-input
+            inputName="email"
+            type="text"
+            placeholder="seuemail@gmail.com"
+            label="Email"
+        >
+        </app-primary-input>
+
+        <app-primary-input
+            inputName="password"
+            type="password"
+            label="Password"
+        >
+        </app-primary-input>
+    </form>
+
+</app-auth-layout>

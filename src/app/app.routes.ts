@@ -1,3 +1,27 @@
-import { Routes } from '@angular/router';
+import { provideRouter, RouterModule, Routes, withHashLocation } from '@angular/router';
+import { HomeComponent } from './pages/home/home.component';
+import { LoginComponent } from './pages/auth/login/login.component';
+import { SignupComponent } from './pages/auth/signup/signup.component';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
 
-export const routes: Routes = [];
+export const routes: Routes = [
+  {
+    path: "",
+    component: HomeComponent
+  },
+  {
+    path: "login",
+    component: LoginComponent
+  },
+  {
+    path: "signup",
+    component: SignupComponent
+  }
+];
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
+})
+export class AppRoutingModule {}

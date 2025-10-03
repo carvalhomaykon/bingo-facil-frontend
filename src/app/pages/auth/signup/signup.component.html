@@ -1,0 +1,56 @@
+<app-auth-layout
+    title="Signup"
+    primaryBtnText="Cadastrar"
+    secundaryBtnText="Já tem conta? Login."
+    secundaryBtnLink="/login"
+    (click)="submit()"
+>
+    <form> 
+        <app-primary-input
+            inputName="firstName"
+            type="text"
+            placeholder="Digite seu primeiro nome"
+            label="Primeiro Nome"
+        >
+        </app-primary-input>
+
+        <app-primary-input
+            inputName="lastName"
+            type="text"
+            placeholder="Digite seu último nome"
+            label="Último Nome"
+        >
+        </app-primary-input>
+
+        <app-primary-input
+            inputName="email"
+            type="text"
+            placeholder="seuemail@gmail.com"
+            label="Email"
+        >
+        </app-primary-input>
+
+        <app-primary-input
+            inputName="telephone"
+            type="text"
+            placeholder="+55 91 90000-0000"
+            label="Telefone"
+        >
+        </app-primary-input>
+
+        <app-primary-input
+            inputName="password"
+            type="password"
+            label="Senha"
+        >
+        </app-primary-input>
+
+        <app-primary-input
+            inputName="passwordConfirmed"
+            type="password"
+            label="Confirme sua Senha"
+        >
+        </app-primary-input>
+    </form>
+
+</app-auth-layout>

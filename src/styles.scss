@@ -1,1 +1,29 @@
-/* You can add global styles to this file, and also import other style files */
+// Paleta
+$yellow: #FCC414;
+$blue: #17578E;
+
+.logo-text {
+  font-size: 3rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  background: linear-gradient(90deg, $yellow 0%, lighten($yellow, 10%) 40%, $blue 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  position: relative;
+  text-align: center;
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba($yellow, 0.2), rgba($blue, 0.2));
+    filter: blur(12px);
+    z-index: -1;
+  }
+
+  .accent {
+    color: $yellow;
+    -webkit-text-fill-color: initial;
+    text-shadow: 0 3px 10px rgba($yellow, 0.3);
+  }
+}

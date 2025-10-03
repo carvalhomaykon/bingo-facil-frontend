@@ -1,0 +1,36 @@
+<div class="flex min-h-screen">
+  <!-- Conteúdo (Login ou Cadastro) -->
+  <div class="w-1/2 flex items-center justify-center p-10 flex flex-col">
+    <h2 class="text-3xl font-bold text-secondary mb-6 text-center"> {{ title }} </h2>
+
+    <div class="flex flex-col gap-4 w-full max-w-md mt-4">
+      <ng-content></ng-content>
+      <button
+        (click)="submit()"
+        class="w-full py-3 px-6 primary-color text-white font-semibold rounded-lg shadow-md hover:bg-primary-color-dark transition-colors duration-200 mt-10"
+      >
+        {{ primaryBtnText }}
+      </button>
+
+      <div class="flex items-center justify-center gap-2 text-gray-400 text-sm">
+        <div class="h-px bg-gray-300 flex-1"></div>
+        <span>Or</span>
+        <div class="h-px bg-gray-300 flex-1"></div>
+      </div>
+
+      <a 
+      [routerLink]="secundaryBtnLink"
+      class="w-full text-center py-3 px-6 border border-gray-300 rounded-lg text-gray-700 font-semibold hover:bg-gray-100 dark:border-gray-600 dark:text-gray-200 dark:hover:bg-gray-700 transition-colors duration-200 block"
+      >
+        {{ secundaryBtnText }}
+      </a>
+    </div>
+  </div>
+
+  <!-- Imagem + Logo -->
+  <div class="w-1/2 gray-secondary-bg flex flex-col items-center justify-center relative">
+    <!-- Logo estilizada -->
+    <h2 class="logo-text">B<span class="accent">!</span>ngoFácil</h2>
+    <img src="assets/svg/Delivery.svg" alt="Auth image" class="max-w-md mt-6">
+  </div>
+</div>
