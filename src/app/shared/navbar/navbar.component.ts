@@ -15,6 +15,6 @@ export class NavbarComponent {
 
   constructor(private router: Router) {}
 
-  isFirstPage = false;
+  isFirstPage = true;
 
 }
