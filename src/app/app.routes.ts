@@ -4,6 +4,7 @@ import { LoginComponent } from './pages/auth/login/login.component';
 import { SignupComponent } from './pages/auth/signup/signup.component';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { WorkspaceComponent } from './pages/workspace/workspace.component';
 
 export const routes: Routes = [
   {
@@ -17,6 +18,10 @@ export const routes: Routes = [
   {
     path: "signup",
     component: SignupComponent
+  },
+  {
+    path: "workspace",
+    component: WorkspaceComponent
   }
 ];
 

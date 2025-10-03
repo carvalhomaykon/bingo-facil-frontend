@@ -22,7 +22,7 @@ export class LoginComponent {
   ){}
 
   submit(){
-    this.router.navigate(["/"])
+    this.router.navigate(["/workspace"])
   }
 
 }

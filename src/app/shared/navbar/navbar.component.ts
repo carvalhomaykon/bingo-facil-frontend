@@ -13,8 +13,8 @@ import { Router, RouterLink } from '@angular/router';
 
 export class NavbarComponent {
 
-  isFirstPage = true;
-
   constructor(private router: Router) {}
+
+  isFirstPage = false;
 
 }
