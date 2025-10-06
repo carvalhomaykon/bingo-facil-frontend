@@ -5,6 +5,7 @@ import { SignupComponent } from './pages/auth/signup/signup.component';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { WorkspaceComponent } from './pages/workspace/workspace.component';
+import { authGuard } from './auth.guard';
 
 export const routes: Routes = [
   {
@@ -21,7 +22,8 @@ export const routes: Routes = [
   },
   {
     path: "workspace",
-    component: WorkspaceComponent
+    component: WorkspaceComponent,
+    canActivate: [authGuard]
   }
 ];
 

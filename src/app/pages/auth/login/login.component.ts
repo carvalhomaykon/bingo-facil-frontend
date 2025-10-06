@@ -3,6 +3,8 @@ import { Component } from '@angular/core';
 import { AuthLayoutComponent } from '../auth-layout/auth-layout.component';
 import { PrimaryInputComponent } from '../primary-input/primary-input.component';
 import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AuthService } from '../../../services/auth/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -10,19 +12,42 @@ import { Router } from '@angular/router';
   imports: [
     CommonModule,
     AuthLayoutComponent,
-    PrimaryInputComponent
+    PrimaryInputComponent,
+    ReactiveFormsModule
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
 
+  loginForm !: FormGroup;
+
   constructor(
-    private router: Router
+    private router: Router,
+    private authService: AuthService,
+    private fb: FormBuilder
   ){}
 
-  submit(){
-    this.router.navigate(["/workspace"])
+  ngOnInit(): void{
+    this.loginForm = this.fb.group({
+      email: ['', [Validators.required], Validators.email],
+      password: ['', [Validators.required]],
+    })
+  }
+
+  onSubmit(){
+    const credentials = this.loginForm.value;
+
+    this.authService.login(credentials).subscribe({
+      next: (reponse) => {
+        console.log("Lógin realizado com sucesso!");
+        this.router.navigate(["/workspace"]);
+      },
+      error: (err) => {
+        console.log("Erro no login: ", err);
+      }
+    });
+    
   }
 
 }

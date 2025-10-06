@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, sample } from 'rxjs';
 import { LoginResponse } from '../../types/login-response.type';
 import { __values } from 'tslib';
 import { tap } from 'rxjs';
@@ -15,12 +15,34 @@ export class AuthService {
 
   constructor(private http: HttpClient) { }
 
-  login(email: string, password: string){
-    return this.http.post<LoginResponse>(`${this.apiUrl}/login`, {email, password}).pipe(
-      tap((value) => {
-        sessionStorage.setItem("auth-token", value.token);
+  login(credentials: any): Observable<any> {
+    return this.http.post<any> (`${this.apiUrl}/login`, credentials).pipe(
+      tap ((response) => {
+        if (response && response.token){
+          this.storeToken(response.token);
+        }
       })
     );
+  }
+
+  public isAuthenticated(): boolean{
+    if (this.getToken === null){
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  private storeToken(token: string): void {
+    localStorage.setItem('authToken', token);
+  }
+
+  public getToken(): string | null {
+    return localStorage.getItem('authToken');
+  }
+
+  public logout(): void {
+    localStorage.removeItem('authToken');
   }
 
   signup(useData: any): Observable<any> {
