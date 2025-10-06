@@ -3,22 +3,15 @@
     primaryBtnText="Cadastrar"
     secundaryBtnText="Já tem conta? Login."
     secundaryBtnLink="/login"
-    (submit)="submit()"
+    (submit)="onSubmit()"
 >
-    <form> 
+    <form [formGroup]="signupForm"> 
         <app-primary-input
-            inputName="firstName"
+            inputName="username"
             type="text"
-            placeholder="Digite seu primeiro nome"
-            label="Primeiro Nome"
-        >
-        </app-primary-input>
-
-        <app-primary-input
-            inputName="lastName"
-            type="text"
-            placeholder="Digite seu último nome"
-            label="Último Nome"
+            placeholder="Digite um username"
+            label="Username"
+            formControlName="username"
         >
         </app-primary-input>
 
@@ -27,6 +20,7 @@
             type="text"
             placeholder="seuemail@gmail.com"
             label="Email"
+            formControlName="email"
         >
         </app-primary-input>
 
@@ -35,6 +29,7 @@
             type="text"
             placeholder="+55 91 90000-0000"
             label="Telefone"
+            formControlName="telephone"
         >
         </app-primary-input>
 
@@ -42,6 +37,7 @@
             inputName="password"
             type="password"
             label="Senha"
+            formControlName="password"
         >
         </app-primary-input>
 
@@ -49,6 +45,7 @@
             inputName="passwordConfirmed"
             type="password"
             label="Confirme sua Senha"
+            formControlName="passwordConfirmed"
         >
         </app-primary-input>
     </form>

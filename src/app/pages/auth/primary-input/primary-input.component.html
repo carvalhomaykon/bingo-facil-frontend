@@ -8,6 +8,8 @@
   <input 
     [type]="type"
     [placeholder]="placeholder"
+    (input)="onInput($event)"
+    (blur)="onTouched()"
     class="w-full py-3 px-6 text-gray-900 dark:text-white bg-gray-100 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-color focus:border-primary-color transition-colors duration-200 placeholder-gray-400 dark:placeholder-gray-400"
     required
   />
