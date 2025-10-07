@@ -1,23 +1,77 @@
 <app-modal-layout 
-    nameModal="Novo Projeto"
-    [show]="show"
-    (close)="close.emit()"
+  nameModal="Novo Projeto"
+  [show]="show"
+  (close)="close.emit()"
+  (submit)="onSubmit()"
 >
-    <!-- Formulário simples -->
-    <form class="flex flex-col gap-4">
-        <div>
-            <label 
-            class="block mb-1 text-sm font-medium text-gray-900 dark:text-gray-200">Nome do Projeto</label>
-            <input type="text"
-            class="w-full p-3 border border-gray-300 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-            placeholder="Digite o nome">
-        </div>
-        
-        <div>
-            <label class="block mb-1 text-sm font-medium text-gray-900 dark:text-gray-200">Data</label>
-            <input type="date"
-            class="w-full p-3 border border-gray-300 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-        </div>
-    </form>
+  <!-- Formulário -->
+  <form class="grid grid-cols-1 md:grid-cols-2 gap-6" [formGroup]="projectForm">
 
-</app-modal-layout>            
+    <app-modal-input
+      inputName="name"
+      type="text"
+      placeholder="Digite o nome do seu projeto"
+      label="Nome do Projeto"
+      formControlName="name"
+    ></app-modal-input>
+
+    <app-modal-input
+      inputName="amountAwards"
+      type="number"
+      placeholder="Digite a quantidade de prêmios"
+      label="Quantidade de Prêmios"
+      formControlName="amountAwards"
+    ></app-modal-input>
+
+    <!-- Campo de Data -->
+    <app-modal-input
+      inputName="date"
+      type="date"
+      label="Data do Bingo"
+      formControlName="date"
+    ></app-modal-input>
+
+    <!-- Campo de Horário -->
+    <app-modal-input
+      inputName="time"
+      type="time"
+      label="Horário do Bingo"
+      formControlName="time"
+    ></app-modal-input>
+
+    <app-modal-input
+      inputName="value"
+      type="number"
+      placeholder="R$ 0,00"
+      label="Valor da Cartela (R$)"
+      formControlName="value"
+    ></app-modal-input>
+
+    <!-- Campo de Status (select) -->
+    <div class="flex flex-col">
+      <label class="block mb-1 text-sm font-medium text-gray-900 dark:text-gray-200">
+        Status do Projeto
+      </label>
+      <select 
+        formControlName="status"
+        class="w-full p-3 border border-gray-300 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+      >
+        <option value="">Selecione o status</option>
+        <option value="PREDICTED">Previsto</option>
+        <option value="IN_PROGRESS">Em andamento</option>
+        <option value="CLOSED">Encerrado</option>
+      </select>
+    </div>
+
+    <!-- Campo de Descrição ocupando duas colunas -->
+    <div class="md:col-span-2">
+      <app-modal-input
+        inputName="description"
+        type="text"
+        placeholder="Faça uma breve descrição"
+        label="Descrição"
+        formControlName="description"
+      ></app-modal-input>
+    </div>
+  </form>
+</app-modal-layout>

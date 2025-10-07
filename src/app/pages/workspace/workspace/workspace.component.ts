@@ -4,6 +4,7 @@ import { NavbarComponent } from '../../../shared/navbar/navbar.component';
 import { Project, ProjectService } from '../../../services/project/project.service';
 import { ProjectComponent } from '../project/project.component';
 import { CommonModule } from '@angular/common';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-workspace',
@@ -22,15 +23,29 @@ export class WorkspaceComponent implements OnInit{
   showModalProject = false;
 
   projets: Project[] = [];
+  private subscription!: Subscription;
 
   constructor(
     private projectService: ProjectService
   ){}
 
   ngOnInit(): void {
-    this.projectService.listarProjetos().subscribe({
-      next: (dados) => this.projets = dados,
-      error: (err) => console.log('Erro ao buscar projetos', err)
+    this.loadProjects();
+
+    this.subscription = this.projectService.projectCreated$.subscribe(
+      (newProject: Project) => {
+        this.projets.unshift(newProject);
+      }
+    )
+  }
+
+  ngOnDestroy(): void{
+    this.subscription.unsubscribe();
+  }
+
+  loadProjects(): void {
+    this.projectService.listarProjetos().subscribe(data => {
+      this.projets = data;
     })
   }
 
