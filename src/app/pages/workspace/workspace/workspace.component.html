@@ -7,7 +7,9 @@
         <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 mb-6">
             <!-- Ações -->
             <div class="flex justify-end gap-3 mb-6">
-                <button type="button"
+                <button
+                    (click)="openModalProject()"
+                    type="button"
                     class="px-5 py-2 primary-color text-white font-medium rounded-lg shadow hover:bg-primary-color-dark transition">
                     + Projeto
                 </button>
@@ -105,5 +107,10 @@
         </div>
     </div>
 </div>
+
+<app-project
+  [show]="showModalProject"
+  (close)="closeModalProjetc()">
+</app-project>
 
 <app-footer></app-footer>

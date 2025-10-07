@@ -1,0 +1,23 @@
+<app-modal-layout 
+    nameModal="Novo Projeto"
+    [show]="show"
+    (close)="close.emit()"
+>
+    <!-- Formulário simples -->
+    <form class="flex flex-col gap-4">
+        <div>
+            <label 
+            class="block mb-1 text-sm font-medium text-gray-900 dark:text-gray-200">Nome do Projeto</label>
+            <input type="text"
+            class="w-full p-3 border border-gray-300 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+            placeholder="Digite o nome">
+        </div>
+        
+        <div>
+            <label class="block mb-1 text-sm font-medium text-gray-900 dark:text-gray-200">Data</label>
+            <input type="date"
+            class="w-full p-3 border border-gray-300 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+        </div>
+    </form>
+
+</app-modal-layout>            
