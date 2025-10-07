@@ -1,10 +1,9 @@
-import { provideRouter, RouterModule, Routes, withHashLocation } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
 import { LoginComponent } from './pages/auth/login/login.component';
 import { SignupComponent } from './pages/auth/signup/signup.component';
-import { bootstrapApplication } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { WorkspaceComponent } from './pages/workspace/workspace.component';
+import { WorkspaceComponent } from './pages/workspace/workspace/workspace.component';
 import { authGuard } from './auth.guard';
 
 export const routes: Routes = [
@@ -22,8 +21,12 @@ export const routes: Routes = [
   },
   {
     path: "workspace",
-    component: WorkspaceComponent,
-    canActivate: [authGuard]
+    canActivate: [authGuard],
+    children: [
+      {
+        path: "", component: WorkspaceComponent
+      }
+    ]
   }
 ];
 

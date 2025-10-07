@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, sample } from 'rxjs';
-import { LoginResponse } from '../../types/login-response.type';
+import { Observable } from 'rxjs';
 import { __values } from 'tslib';
 import { tap } from 'rxjs';
 
@@ -26,11 +25,7 @@ export class AuthService {
   }
 
   public isAuthenticated(): boolean{
-    if (this.getToken === null){
-      return false;
-    } else {
-      return true;
-    }
+    return this.getToken() !== null;
   }
 
   private storeToken(token: string): void {
