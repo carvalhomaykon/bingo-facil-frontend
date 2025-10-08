@@ -5,6 +5,7 @@ import { SignupComponent } from './pages/auth/signup/signup.component';
 import { NgModule } from '@angular/core';
 import { WorkspaceComponent } from './pages/workspace/workspace/workspace.component';
 import { authGuard } from './auth.guard';
+import { ProjectDetailComponent } from './pages/project-management/project-detail/project-detail.component';
 
 export const routes: Routes = [
   {
@@ -25,6 +26,9 @@ export const routes: Routes = [
     children: [
       {
         path: "", component: WorkspaceComponent
+      },
+      {
+        path: "projects/:id", component: ProjectDetailComponent
       }
     ]
   }

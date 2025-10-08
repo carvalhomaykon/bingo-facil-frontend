@@ -6,7 +6,10 @@ export interface Project{
   id: number;
   name: string;
   dateAndTime: string;
-  status: string
+  status: string;
+  amountAwards: number;
+  description: string;
+  value: number
 }
 
 @Injectable({
@@ -23,6 +26,18 @@ export class ProjectService {
   constructor(
     private http: HttpClient
   ) { }
+
+  getProjectById(id: number): Observable<Project> {
+    return this.http.get<Project>(`${this.apiUrl}/${id}`);
+  }
+
+  updateProject(id: number, projectData: any): Observable<Project> {
+    return this.http.put<Project>(`${this.apiUrl}/${id}`, projectData);
+  }
+
+  deleteProject(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
 
   listarProjetos(): Observable<Project[]>{
     return this.http.get<Project[]>(this.apiUrl);
