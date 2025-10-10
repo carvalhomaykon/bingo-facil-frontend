@@ -5,6 +5,7 @@ import { Project, ProjectService } from '../../../services/project/project.servi
 import { ProjectComponent } from '../project/project.component';
 import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-workspace',
@@ -26,7 +27,8 @@ export class WorkspaceComponent implements OnInit{
   private subscription!: Subscription;
 
   constructor(
-    private projectService: ProjectService
+    private projectService: ProjectService,
+    private router: Router,
   ){}
 
   ngOnInit(): void {
@@ -55,6 +57,10 @@ export class WorkspaceComponent implements OnInit{
 
   closeModalProjetc() {
     this.showModalProject = false;
+  }
+
+  navigateToProject(projectId: number): void {
+    this.router.navigate(['workspace/projects', projectId]);
   }
 
 }

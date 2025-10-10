@@ -1,9 +1,124 @@
 <app-navbar></app-navbar>
 
-<div class="min-h-screen bg-gray-50 dark:bg-gray-900 pt-28 px-6">
+<div class="min-h-screen bg-gray-50 dark:bg-gray-900 pt-28 px-6 flex justify-center">
+  <div
+    class="w-full max-w-3xl bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 transition duration-300"
+  >
+    <!-- Cabeçalho -->
+    <div class="mb-6 border-b pb-4">
+      <h1 class="text-3xl font-bold text-gray-800 dark:text-white">
+        {{ project.name }}
+      </h1>
+      <p class="text-gray-500 dark:text-gray-400 text-sm mt-1">
+        Será realizado em:
+        <span class="font-medium text-gray-700 dark:text-gray-300">
+          {{ project.dateAndTime | date:'dd/MM/yyyy' }}
+        </span>
+        às
+        <span class="font-medium text-gray-700 dark:text-gray-300">
+          {{ project.dateAndTime | date:'HH:mm' }}
+        </span>
+      </p>
+      <div class="mt-4">
+        <span
+          class="inline-block px-4 py-2 rounded-full text-sm font-medium"
+          [ngClass]="{
+            'bg-green-100 text-green-700 dark:bg-green-800 dark:text-green-200': project.status === 'IN_PROGRESS',
+            'bg-yellow-100 text-yellow-700 dark:bg-yellow-800 dark:text-yellow-200': project.status === 'PREDICTED',
+            'bg-red-100 text-red-700 dark:bg-red-800 dark:text-red-200': project.status === 'CLOSED'
+          }"
+        >
+          @if (project.status == "IN_PROGRESS"){
+            Em Andamento
+          } @else if (project.status == "PREDICTED"){
+            Previsto
+          }@else {
+            Fechado
+          }
+        </span>
+      </div>
+    </div>
     
-    <h2>Detalhes do Projeto: {{ project.name }}</h2>
+    <!-- Corpo -->
+    <div class="space-y-4">
+      <div>
+        <h2 class="text-lg font-semibold text-gray-700 dark:text-gray-200">
+          Descrição
+        </h2>
+        <p class="text-gray-600 dark:text-gray-300 mt-1">
+          {{ project.description }}
+        </p>
+      </div>
+      
+      <div class="grid grid-cols-2 gap-6 mt-4">
+        <div class="bg-gray-100 dark:bg-gray-700 rounded-xl p-4">
+          <p class="text-sm text-gray-500 dark:text-gray-400">Prêmios</p>
+          <p class="text-lg font-semibold text-gray-800 dark:text-white">
+            {{ project.amountAwards }}
+          </p>
+        </div>
+        
+        <div class="bg-gray-100 dark:bg-gray-700 rounded-xl p-4">
+          <p class="text-sm text-gray-500 dark:text-gray-400">Valor</p>
+          <p class="text-lg font-semibold text-gray-800 dark:text-white">
+            R$ {{ project.value | number:'1.2-2' }}
+          </p>
+        </div>
+      </div>
+      
+      <button
+        (click)="openModalProject()"
+      >
+          Editar Projeto
+      </button>
+    </div>
+    
+    <!-- Prêmios -->
+    <div class="mt-8">
+      <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-4">
+        Prêmios
+      </h2>
 
+      @if (awards.length > 0) {
+        @for (award of awards; track $index) {
+          <div class="grid gap-4 md:grid-cols-2">
+            <div
+            class="p-4 rounded-xl bg-gray-100 dark:bg-gray-800 shadow-sm flex flex-col justify-between">
+              <div>
+                <h3 class="text-lg font-medium text-gray-800 dark:text-white">
+                  {{ award.name }}
+                </h3>
+              </div>
+            
+              <span
+              class="inline-block mt-3 px-3 py-1 text-xs font-semibold rounded-full self-start
+                  bg-yellow-100 text-yellow-800 dark:bg-yellow-700 dark:text-yellow-200"
+              >
+                {{ award.styleAward }}
+              </span>
+            </div>
+          </div>
+        }
+        <button
+          (click)="openModalAward()"
+        >
+          Editar Prêmio
+        </button>
+      } @else {
+        <p class="text-gray-500 dark:text-gray-400 italic">Nenhum prêmio cadastrado.</p>
+      }
+    </div>
+  </div>
 </div>
+
+<app-award-modal
+  [show]="showModalAward"
+  (close)="closeModalAward()">
+> </app-award-modal>
+
+<app-project-modal
+  [show]="showModalProject"
+  (close)="closeModalProject()">
+> </app-project-modal>
 
 <app-footer></app-footer>
