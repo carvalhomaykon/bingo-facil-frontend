@@ -3,8 +3,17 @@
   [show]="show"
   (close)="close.emit()"
   (submit)="onSubmit()"
->
-
-    Teste
+  >
+  
+  <form>
+    @for (item of awards; track $index) {
+      <app-modal-input
+      inputName=""
+      type=""
+      label=""
+      formControlName=""
+      ></app-modal-input>
+    }
+  </form>
 
 </app-modal-layout>

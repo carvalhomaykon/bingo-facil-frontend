@@ -53,13 +53,18 @@ export class ProjectDetailComponent implements OnInit{
     });
 }
 
-  loadProjectDetails(id: number): void {
-    this.projectService.getProjectById(id).subscribe(data => {
-      this.project = data;
+   loadProjectDetails(id: number): void {
+    this.projectService.getProjectById(id).subscribe(projectData => {
+      this.project = projectData;
+
+      this.awardService.getAwardsByIdProject(id).subscribe(awardData => {
+        this.awards = awardData;
+
+        if (this.awards.length < this.project.amountAwards) {
+          this.showModalAward = true; // abre modal automaticamente
+        }
+      });
     });
-    this.awardService.getAwardsByIdProject(id).subscribe(dataAward => {
-      this.awards = dataAward;
-    })
   }
 
   openModalAward() {
