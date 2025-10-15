@@ -25,6 +25,8 @@ import { ProjectModalComponent } from "../project-modal/project-modal.component"
 })
 export class ProjectDetailComponent implements OnInit{
 
+  awardToEdit: Award | null = null; 
+
   @Input() ngClass: string = "";
   
   showModalAward = false;
@@ -51,9 +53,9 @@ export class ProjectDetailComponent implements OnInit{
         console.error("ID do projeto não encontrado na URL.");
       }
     });
-}
+  }
 
-   loadProjectDetails(id: number): void {
+  loadProjectDetails(id: number): void {
     this.projectService.getProjectById(id).subscribe(projectData => {
       this.project = projectData;
 
@@ -69,10 +71,12 @@ export class ProjectDetailComponent implements OnInit{
 
   openModalAward() {
     this.showModalAward = true;
+    this.awardToEdit = null;
   }
 
   closeModalAward() {
     this.showModalAward = false;
+    this.awardToEdit = null; 
   }
 
   openModalProject() {
@@ -82,5 +86,30 @@ export class ProjectDetailComponent implements OnInit{
   closeModalProject() {
     this.showModalProject = false;
   }
+
+  editAward(award: Award) {
+    this.awardToEdit = {...award}; 
+    this.showModalAward = true;
+  }
+
+  removeAward(awardId: number){
+    if (!awardId) return;
+    if (confirm('Tem certeza que deseja remover este prêmio?')) {
+      this.awardService.removeAward(awardId).subscribe({
+        next: () => {
+          console.log('Prêmio removido com sucesso:', awardId);
+          this.loadProjectDetails(this.projectId); 
+        },
+        error: (err) => {
+          console.error('Erro ao remover prêmio:', err);
+        }
+      });
+    }
+  }
+
+  handleAwardSaved(): void {
+    this.loadProjectDetails(this.projectId); 
+    this.closeModalAward();
+}
 
 }

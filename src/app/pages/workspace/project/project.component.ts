@@ -71,7 +71,7 @@ export class ProjectComponent {
           
           this.workspace.closeModalProjetc();
 
-          this.router.navigate(["/workspace"])
+          this.router.navigate(["/workspace/projects", response.id])
         },
         error: (err) => {
           console.log("Erro ao cadastrar projeto.", err)
