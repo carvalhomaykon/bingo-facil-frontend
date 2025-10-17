@@ -7,6 +7,8 @@ import { CommonModule } from '@angular/common';
 import { Award, AwardService } from '../../../services/award/award.service';
 import { AwardModalComponent } from "../award-modal/award-modal.component";
 import { ProjectModalComponent } from "../project-modal/project-modal.component";
+import { FormsModule } from '@angular/forms';
+import { CardService, NumberCard } from '../../../services/card/card.service';
 
 @Component({
   selector: 'app-project-detail',
@@ -18,7 +20,8 @@ import { ProjectModalComponent } from "../project-modal/project-modal.component"
     AwardModalComponent,
     ProjectModalComponent,
     AwardModalComponent,
-    ProjectModalComponent
+    ProjectModalComponent,
+    FormsModule
 ],
   templateUrl: './project-detail.component.html',
   styleUrl: './project-detail.component.scss'
@@ -36,10 +39,13 @@ export class ProjectDetailComponent implements OnInit{
   projectId!: number; 
   awards: Award[] = [];
 
+  qtdCartelas: number = 0;
+  
   constructor(
     private route: ActivatedRoute,
     private projectService: ProjectService,
-    private awardService: AwardService
+    private awardService: AwardService,
+    private cardService: CardService
   ) {}
 
   ngOnInit(): void {
@@ -110,6 +116,38 @@ export class ProjectDetailComponent implements OnInit{
   handleAwardSaved(): void {
     this.loadProjectDetails(this.projectId); 
     this.closeModalAward();
-}
+  }
+
+  generateCards(): void{
+    const cardDataToSend: NumberCard = {
+        project: this.projectId // Assumindo que 'this.projectId' é o ID do projeto
+    };
+
+    this.cardService.createCard(this.qtdCartelas, cardDataToSend).subscribe({
+      next: (data: ArrayBuffer) => {
+        this.downloadPDF(data, 'cartelas_bingo.pdf');
+      },
+      error: (err) => {
+        console.log("Erro ao gerar cartelas: ", err);
+      }
+    })
+    console.log("Números de cartelas: ", this.qtdCartelas);
+  }
+
+  private downloadPDF(data: ArrayBuffer, filename: string): void {
+    const blob = new Blob([data], { type: 'application/pdf' });
+    
+    const url = window.URL.createObjectURL(blob);
+    
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    
+    document.body.appendChild(a);
+    a.click();
+    
+    window.URL.revokeObjectURL(url);
+    document.body.removeChild(a);
+  }
 
 }

@@ -153,6 +153,7 @@
             name="qtdCartelas"
             placeholder="Ex: 10"
             class="p-2 border border-gray-300 rounded-lg dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            [(ngModel)]="qtdCartelas"
           />
         </div>
 
@@ -169,9 +170,8 @@
             name="tipoCartela"
             id="tipoCartela"
           >
-            <option value="unica">Uma cartela para todos os prêmios</option>
-            <option value="mesmos">Uma cartela por prêmio (mesmos números)</option>
-            <option value="diferentes">Uma cartela por prêmio (números diferentes)</option>
+            <option value="cardUniqForAllAwards">Uma cartela para todos os prêmios</option>
+            <option value="cardUniqForAward">Uma cartela por prêmio (mesmos números)</option>
           </select>
         </div>
 
@@ -179,6 +179,7 @@
         <div class="flex w-full sm:w-auto">
           <button
             class="bg-indigo-600 text-white px-6 py-2.5 rounded-lg hover:bg-indigo-700 transition font-medium shadow-md w-full sm:w-auto"
+            (click)="generateCards()"
           >
             Gerar Cartelas
           </button>
