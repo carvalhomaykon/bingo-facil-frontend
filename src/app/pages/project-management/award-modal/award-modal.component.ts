@@ -10,7 +10,6 @@ import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } fr
   standalone: true,
   imports: [
     ModalLayoutComponent,
-    ModalInputComponent,
     ReactiveFormsModule
   ],
   templateUrl: './award-modal.component.html',
