@@ -1,80 +1,79 @@
 <app-navbar></app-navbar>
-  <div class="min-h-screen bg-gray-50 dark:bg-gray-900 pt-28 px-6 flex justify-center">
-    <div
-    class="w-full max-w-3xl bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 transition duration-300"
-    >
-      <!-- Cabeçalho -->
-      <div class="mb-6 border-b pb-4">
-        <h1 class="text-3xl font-bold text-gray-800 dark:text-white">
-          {{ project.name }}
-        </h1>
 
-        <p class="text-gray-500 dark:text-gray-400 text-sm mt-1">
-          Será realizado em:
-          <span class="font-medium text-gray-700 dark:text-gray-300">
-            {{ project.dateAndTime | date:'dd/MM/yyyy' }}
-          </span>
-          às
-          <span class="font-medium text-gray-700 dark:text-gray-300">
-            {{ project.dateAndTime | date:'HH:mm' }}
-          </span>
-        </p>
+<div class="min-h-screen bg-gray-50 dark:bg-gray-900 pt-28 px-6 flex justify-center">
+  <div class="w-full bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 transition duration-300">
+    <!-- Cabeçalho -->
+    <div class="mb-6 border-b pb-4">
+      <h1 class="text-3xl font-bold text-gray-800 dark:text-white">
+        {{ project.name }}
+      </h1>
+
+      <p class="text-gray-500 dark:text-gray-400 text-sm mt-1">
+        Será realizado em:
+        <span class="font-medium text-gray-700 dark:text-gray-300">
+          {{ project.dateAndTime | date:'dd/MM/yyyy' }}
+        </span>
+        às
+        <span class="font-medium text-gray-700 dark:text-gray-300">
+          {{ project.dateAndTime | date:'HH:mm' }}
+        </span>
+      </p>
+      
+      <div class="mt-4">
+        <span
+          class="inline-block px-4 py-2 rounded-full text-sm font-medium"
+          [ngClass]="{
+            'bg-green-100 text-green-700 dark:bg-green-800 dark:text-green-200': project.status === 'IN_PROGRESS',
+            'bg-yellow-100 text-yellow-700 dark:bg-yellow-800 dark:text-yellow-200': project.status === 'PREDICTED',
+            'bg-red-100 text-red-700 dark:bg-red-800 dark:text-red-200': project.status === 'CLOSED'
+            }"
+          >
           
-        <div class="mt-4">
-          <span
-            class="inline-block px-4 py-2 rounded-full text-sm font-medium"
-            [ngClass]="{
-              'bg-green-100 text-green-700 dark:bg-green-800 dark:text-green-200': project.status === 'IN_PROGRESS',
-              'bg-yellow-100 text-yellow-700 dark:bg-yellow-800 dark:text-yellow-200': project.status === 'PREDICTED',
-              'bg-red-100 text-red-700 dark:bg-red-800 dark:text-red-200': project.status === 'CLOSED'
-              }"
-            >
-            
-            @if (project.status == "IN_PROGRESS"){
-              Em Andamento
-            } @else if (project.status == "PREDICTED"){
-              Previsto
-            }@else {
-              Fechado
-            }
-          </span>
+          @if (project.status == "IN_PROGRESS"){
+            Em Andamento
+          } @else if (project.status == "PREDICTED"){
+            Previsto
+          }@else {
+            Fechado
+          }
+        </span>
+      </div>
+    </div>
+
+    <!-- Corpo -->
+    <div class="space-y-4">
+      <div>
+        <h2 class="text-lg font-semibold text-gray-700 dark:text-gray-200">
+          Descrição
+        </h2>
+        <p class="text-gray-600 dark:text-gray-300 mt-1">
+          {{ project.description }}
+        </p>
+      </div>
+
+      <div class="grid grid-cols-2 gap-6 mt-4">
+        <div class="bg-gray-100 dark:bg-gray-700 rounded-xl p-4">
+          <p class="text-sm text-gray-500 dark:text-gray-400">Prêmios</p>
+          <p class="text-lg font-semibold text-gray-800 dark:text-white">
+            {{ project.amountAwards }}
+          </p>
+        </div>
+      
+        <div class="bg-gray-100 dark:bg-gray-700 rounded-xl p-4">
+          <p class="text-sm text-gray-500 dark:text-gray-400">Valor</p>
+          <p class="text-lg font-semibold text-gray-800 dark:text-white">
+            R$ {{ project.value | number:'1.2-2' }}
+          </p>
         </div>
       </div>
   
-      <!-- Corpo -->
-      <div class="space-y-4">
-        <div>
-          <h2 class="text-lg font-semibold text-gray-700 dark:text-gray-200">
-            Descrição
-          </h2>
-          <p class="text-gray-600 dark:text-gray-300 mt-1">
-            {{ project.description }}
-          </p>
-        </div>
-    
-        <div class="grid grid-cols-2 gap-6 mt-4">
-          <div class="bg-gray-100 dark:bg-gray-700 rounded-xl p-4">
-            <p class="text-sm text-gray-500 dark:text-gray-400">Prêmios</p>
-            <p class="text-lg font-semibold text-gray-800 dark:text-white">
-              {{ project.amountAwards }}
-            </p>
-          </div>
-        
-          <div class="bg-gray-100 dark:bg-gray-700 rounded-xl p-4">
-            <p class="text-sm text-gray-500 dark:text-gray-400">Valor</p>
-            <p class="text-lg font-semibold text-gray-800 dark:text-white">
-              R$ {{ project.value | number:'1.2-2' }}
-            </p>
-          </div>
-        </div>
-      
       <button
         (click)="openModalProject()"
       >
         Editar Projeto
       </button>
     </div>
-    
+
     <div class="mt-8">
       <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-4">
         Prêmios Cadastrados
@@ -86,7 +85,7 @@
           @for (award of awards; track $index) {
             <div
               class="p-4 rounded-xl bg-gray-100 dark:bg-gray-800 shadow-lg flex justify-between transition hover:shadow-xl duration-200">
-              
+            
               <div>
                 <h3 class="text-lg font-medium text-gray-800 dark:text-white">
                   {{ award.name }}
@@ -98,9 +97,8 @@
                   {{ award.styleAward }}
                 </span>
               </div>
-            
+          
               <div class="mt-4 flex justify-end space-x-2">
-                
                 <button
                   class="text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 p-2 rounded-full transition"
                   (click)="editAward(award)">
@@ -108,7 +106,7 @@
                     <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zm-8.82 7.777l4.312-4.312 2.828 2.828-4.312 4.312A.75.75 0 018.667 15H5.75a.75.75 0 01-.75-.75v-2.917a.75.75 0 01.22-.53L10.22 5.22a.75.75 0 011.06 0l2.828 2.828a.75.75 0 010 1.06l-6.875 6.875a.75.75 0 01-.53.22H5.75a.75.75 0 01-.75-.75v-2.917a.75.75 0 01.22-.53l4.312-4.312z"/>
                   </svg>
                 </button>
-                
+              
                 <button
                   class="text-gray-500 hover:text-red-600 dark:text-gray-400 dark:hover:text-red-400 p-2 rounded-full transition"
                   (click)="removeAward(award.id)">
@@ -132,6 +130,62 @@
         </button>
       }
     </div>
+    
+    <div class="mt-8">
+      <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-4">
+        Gerar Cartelas
+      </h2>
+
+      <div
+        class="flex flex-wrap items-end gap-4 bg-gray-50 dark:bg-gray-900 p-4 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700"
+      >
+        <!-- Quantidade de Cartelas -->
+        <div class="flex flex-col w-full sm:w-1/3">
+          <label
+            for="qtdCartelas"
+            class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+          >
+            Informe a quantidade de cartelas
+          </label>
+          <input
+            type="number"
+            id="qtdCartelas"
+            name="qtdCartelas"
+            placeholder="Ex: 10"
+            class="p-2 border border-gray-300 rounded-lg dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          />
+        </div>
+
+        <!-- Tipo de Cartela -->
+        <div class="flex flex-col w-full sm:w-1/3">
+          <label
+            for="tipoCartela"
+            class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+          >
+            Tipo de cartela
+          </label>
+          <select
+            class="p-2 border border-gray-300 rounded-lg dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            name="tipoCartela"
+            id="tipoCartela"
+          >
+            <option value="unica">Uma cartela para todos os prêmios</option>
+            <option value="mesmos">Uma cartela por prêmio (mesmos números)</option>
+            <option value="diferentes">Uma cartela por prêmio (números diferentes)</option>
+          </select>
+        </div>
+
+        <!-- Botão -->
+        <div class="flex w-full sm:w-auto">
+          <button
+            class="bg-indigo-600 text-white px-6 py-2.5 rounded-lg hover:bg-indigo-700 transition font-medium shadow-md w-full sm:w-auto"
+          >
+            Gerar Cartelas
+          </button>
+        </div>
+      </div>
+    </div>
+    
   </div>
 </div>
 
