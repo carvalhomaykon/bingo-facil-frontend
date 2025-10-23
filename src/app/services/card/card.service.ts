@@ -24,8 +24,8 @@ export class CardService {
     private http: HttpClient
   ) { }
 
-  createCard(amount: number, cardData: NumberCard): Observable<ArrayBuffer>{
-    const url = `${this.apiUrl}/${amount}`
+  createCard(amount: number, cardData: NumberCard, type: number): Observable<ArrayBuffer>{
+    const url = `${this.apiUrl}/${amount}/${type}`
 
     return this.http.post(
       url, cardData,
