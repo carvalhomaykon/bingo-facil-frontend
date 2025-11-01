@@ -1,15 +1,19 @@
-<div>
-    <label 
-        [for]="inputName"
-        class="block mb-1 text-sm font-medium text-gray-900 dark:text-gray-200">
-        {{ label }}
+<div class="flex flex-col">
+  <!-- Utiliza a nova sintaxe @if do Angular -->
+  @if (label) {
+    <label [for]="inputName" class="block mb-1 text-sm font-medium text-gray-900 dark:text-gray-200">
+      {{ label }}
     </label>
-
-    <input 
-        [type]="type"
-        [placeholder]="placeholder"
-        (input)="onInput($event)"
-        (blur)="onTouched()"
-        class="w-full p-3 border border-gray-300 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-    >
+  }
+  <input
+    [id]="inputName"
+    [type]="type"
+    [placeholder]="placeholder"
+    [value]="value"
+    [disabled]="isDisabled"
+    (input)="onInput($event)"
+    (blur)="onTouched()"
+    class="w-full p-3 border border-gray-300 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white 
+           focus:ring-indigo-500 focus:border-indigo-500 transition duration-150"
+  />
 </div>

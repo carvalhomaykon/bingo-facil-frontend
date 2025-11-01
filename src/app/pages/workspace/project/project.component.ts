@@ -1,11 +1,10 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Project, ProjectService } from '../../../services/project/project.service';
 import { ModalLayoutComponent } from '../modal-layout/modal-layout.component';
 import { ModalInputComponent } from "../modal-input/modal-input.component";
 import { CommonModule } from '@angular/common';
-import { WorkspaceComponent } from '../workspace/workspace.component';
 
 @Component({
   selector: 'app-project',
@@ -14,28 +13,50 @@ import { WorkspaceComponent } from '../workspace/workspace.component';
     CommonModule,
     ReactiveFormsModule,
     ModalLayoutComponent,
-    ModalLayoutComponent,
     ModalInputComponent
 ],
   templateUrl: './project.component.html',
   styleUrl: './project.component.scss'
 })
-export class ProjectComponent {
+export class ProjectComponent implements OnInit, OnChanges {
 
   projectForm!: FormGroup;
+  isEditing = false;
 
+  @Input() projectToEdit: Project | null = null;
+  
   @Input() show = false;
+  
   @Output() close = new EventEmitter<void>();
+  
+  @Output() projectSaved = new EventEmitter<Project>();
 
   constructor(
     private router: Router,
     private projectService: ProjectService,
     private fb: FormBuilder,
-    private workspace: WorkspaceComponent
+    // Removida a injeção direta de WorkspaceComponent: use @Output() para comunicação com o pai.
   ){}
 
   ngOnInit(): void{
+    this.initializeForm();
+  }
+  
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['projectToEdit'] && this.projectToEdit) {
+      this.isEditing = true;
+      this.patchForm(this.projectToEdit);
+      console.log(this.projectToEdit)
+    } else if (!this.projectToEdit) {
+      this.isEditing = false;
+      this.initializeForm();
+    }
+  }
+
+  initializeForm(): void {
     this.projectForm = this.fb.group({
+      id: [''],
       name: ['', [Validators.required]],
       amountAwards: ['', [Validators.required]],
       date: ['', [Validators.required]],
@@ -46,16 +67,30 @@ export class ProjectComponent {
     });
   }
 
+  patchForm(project: Project): void {
+    const [datePart, timePart] = project.dateAndTime.split('T');
+    this.projectForm.patchValue({
+      name: project.name,
+      amountAwards: project.amountAwards,
+      date: datePart || '',
+      time: timePart ? timePart.substring(0, 5) : '',
+      description: project.description,
+      value: project.value,
+      status: project.status,
+      id: project.id
+    });
+  }
+  
+  get modalTitle(): string {
+    return this.isEditing ? 'Editar Projeto' : 'Cadastrar Novo Projeto';
+  }
+
   onSubmit() {
     if (this.projectForm.valid){
-
       const formValue = this.projectForm.value;
-      console.log(formValue);
 
       const dateAndTime = `${formValue.date}T${formValue.time}`;
-      console.log(dateAndTime);
-
-      const projectPayload = {
+      const projectPayload: any = {
         ...formValue,
         dateAndTime,
       };
@@ -63,31 +98,36 @@ export class ProjectComponent {
       delete projectPayload.date;
       delete projectPayload.time;
 
-      this.projectService.createProject(projectPayload).subscribe({
-        next: (response:Project) => {
-          console.log("Projeto cadastrado com sucesso!", response);
-          
-          this.projectService.notifyProjectCreated(response);
-          
-          this.workspace.closeModalProjetc();
+      if (this.isEditing && this.projectToEdit?.id) {
+        this.projectService.updateProject(this.projectToEdit.id, projectPayload).subscribe({
+          next: (response) => {
+            console.log("Projeto atualizado com sucesso!", response);
+            this.projectSaved.emit(response);
+            this.close.emit();
+          },
+          error: (err) => {
+            console.error("Erro ao atualizar projeto.", err);
+          }
+        });
+      } else {
+        this.projectService.createProject(projectPayload).subscribe({
+          next: (response: Project) => {
+            console.log("Projeto cadastrado com sucesso!", response);
+            
+            this.projectService.notifyProjectCreated(response);
+            
+            this.projectSaved.emit(response);
+            this.close.emit();
 
-          this.router.navigate(["/workspace/projects", response.id])
-        },
-        error: (err) => {
-          console.log("Erro ao cadastrar projeto.", err)
-        }
-      })
+            this.router.navigate(["/workspace/projects", response.id]);
+          },
+          error: (err) => {
+            console.error("Erro ao cadastrar projeto.", err);
+          }
+        });
+      }
     } else {
-      console.log("❌ Formulário inválido. Detalhes abaixo:");
-
-      Object.keys(this.projectForm.controls).forEach(key => {
-        const control = this.projectForm.get(key);
-        if (control && control.invalid) {
-          console.log(`- Campo '${key}' é inválido. Valor atual:`, control.value);
-          console.log(`  Erros:`, control.errors);
-        }
-      });
-
+      console.log("❌ Formulário inválido.");
       this.projectForm.markAllAsTouched();
     }
   }

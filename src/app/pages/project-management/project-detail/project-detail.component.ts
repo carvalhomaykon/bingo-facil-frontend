@@ -1,27 +1,25 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Project, ProjectService } from '../../../services/project/project.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Route, Router } from '@angular/router';
 import { NavbarComponent } from '../../../shared/navbar/navbar.component';
 import { FooterComponent } from '../../../shared/footer/footer.component';
 import { CommonModule } from '@angular/common';
 import { Award, AwardService } from '../../../services/award/award.service';
 import { AwardModalComponent } from "../award-modal/award-modal.component";
-import { ProjectModalComponent } from "../project-modal/project-modal.component";
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CardService, NumberCard } from '../../../services/card/card.service';
+import { ProjectComponent } from '../../workspace/project/project.component';
 
 @Component({
   selector: 'app-project-detail',
   standalone: true,
   imports: [
-    NavbarComponent,
     FooterComponent,
     CommonModule,
+    NavbarComponent,
+    FormsModule,
     AwardModalComponent,
-    ProjectModalComponent,
-    AwardModalComponent,
-    ProjectModalComponent,
-    FormsModule
+    ProjectComponent
 ],
   templateUrl: './project-detail.component.html',
   styleUrl: './project-detail.component.scss'
@@ -29,6 +27,7 @@ import { CardService, NumberCard } from '../../../services/card/card.service';
 export class ProjectDetailComponent implements OnInit{
 
   awardToEdit: Award | null = null; 
+  projectToEdit: Project | null = null; 
 
   @Input() ngClass: string = "";
   
@@ -46,7 +45,8 @@ export class ProjectDetailComponent implements OnInit{
     private route: ActivatedRoute,
     private projectService: ProjectService,
     private awardService: AwardService,
-    private cardService: CardService
+    private cardService: CardService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -70,7 +70,7 @@ export class ProjectDetailComponent implements OnInit{
         this.awards = awardData;
 
         if (this.awards.length < this.project.amountAwards) {
-          this.showModalAward = true; // abre modal automaticamente
+          this.showModalAward = true;
         }
       });
     });
@@ -86,17 +86,24 @@ export class ProjectDetailComponent implements OnInit{
     this.awardToEdit = null; 
   }
 
+  editAward(award: Award) {
+    this.awardToEdit = {...award}; 
+    this.showModalAward = true;
+  }
+  
   openModalProject() {
     this.showModalProject = true;
+    this.projectToEdit = null;
   }
 
   closeModalProject() {
     this.showModalProject = false;
+    this.projectToEdit = null;
   }
 
-  editAward(award: Award) {
-    this.awardToEdit = {...award}; 
-    this.showModalAward = true;
+  editProject(project: Project) {
+    this.showModalProject = true; 
+    this.projectToEdit = project;
   }
 
   removeAward(awardId: number){
@@ -114,6 +121,21 @@ export class ProjectDetailComponent implements OnInit{
     }
   }
 
+  removeProject(projectId: number){
+    if (!projectId) return;
+    if (confirm('Tem certeza que deseja remover esse projeto?')){
+      this.projectService.deleteProject(projectId).subscribe({
+        next: () => {
+          console.log("Projeto removido com sucesso");
+          this.router.navigate(['/workspace'])
+        },
+        error: () => {
+          console.log('Erro ao remover projeto');
+        }
+      })
+    }
+  }
+
   handleAwardSaved(): void {
     this.loadProjectDetails(this.projectId); 
     this.closeModalAward();
@@ -121,7 +143,7 @@ export class ProjectDetailComponent implements OnInit{
 
   generateCards(): void{
     const cardDataToSend: NumberCard = {
-      project: this.projectId // Assumindo que 'this.projectId' é o ID do projeto
+      project: this.projectId
     }
 
     this.cardService.createCard(this.qtdCartelas, cardDataToSend, this.verifycarTypeCard()).subscribe({
