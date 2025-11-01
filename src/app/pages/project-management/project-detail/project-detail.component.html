@@ -25,7 +25,7 @@
           [ngClass]="{
             'bg-green-100 text-green-700 dark:bg-green-800 dark:text-green-200': project.status === 'IN_PROGRESS',
             'bg-yellow-100 text-yellow-700 dark:bg-yellow-800 dark:text-yellow-200': project.status === 'PREDICTED',
-            'bg-red-100 text-red-700 dark:bg-red-800 dark:text-red-200': project.status === 'CLOSED'
+            'bg-gray-100 text-black-700 dark:bg-black-800 dark:text-black-200': project.status === 'CLOSED'
             }"
           >
           
@@ -67,11 +67,24 @@
         </div>
       </div>
   
-      <button
-        (click)="openModalProject()"
-      >
-        Editar Projeto
-      </button>
+      <div class="mt-4 flex justify-end space-x-2">
+        <button
+          class="bg-indigo-600 text-white px-6 py-2.5 rounded-lg hover:bg-indigo-700 transition font-medium shadow-md w-full sm:w-auto"
+          (click)="editProject(project)">
+          Editar
+        </button>
+      
+        <button
+          class="bg-red-200 hover:bg-red-200 text-gray-500 hover:text-red-700 dark:bg-red-900 dark:hover:bg-red-800 dark:text-gray-300 dark:hover:text-red-400 px-6 py-2.5 rounded-lg transition"
+          (click)="removeProject(project.id)">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd"
+              d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm4 0a1 1 0 10-2 0v6a1 1 0 102 0V8z"
+              clip-rule="evenodd" />
+          </svg>
+        </button>
+
+      </div>
     </div>
 
     <div class="mt-8">
@@ -200,9 +213,11 @@
   [awardToEdit]="awardToEdit"
 ></app-award-modal>
 
-<app-project-modal
+<app-project
   [show]="showModalProject"
-  (close)="closeModalProject()">
-> </app-project-modal>
+  (close)="closeModalProject()"
+  [projectToEdit]="projectToEdit">
+> 
+</app-project>
 
 <app-footer></app-footer>
