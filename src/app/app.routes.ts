@@ -6,6 +6,7 @@ import { NgModule } from '@angular/core';
 import { WorkspaceComponent } from './pages/workspace/workspace/workspace.component';
 import { authGuard } from './auth.guard';
 import { ProjectDetailComponent } from './pages/project-management/project-detail/project-detail.component';
+import { CardDatailComponent } from './pages/card-management/card-datail/card-datail.component';
 
 export const routes: Routes = [
   {
@@ -24,11 +25,15 @@ export const routes: Routes = [
     path: "workspace",
     canActivate: [authGuard],
     children: [
+
       {
         path: "", component: WorkspaceComponent
       },
       {
         path: "projects/:id", component: ProjectDetailComponent
+      },
+      {
+        path: "card/:codeCard", component: CardDatailComponent
       }
     ]
   }

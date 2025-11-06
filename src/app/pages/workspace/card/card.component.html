@@ -1,0 +1,19 @@
+<app-modal-layout 
+  nameModal="Adicionar Bingo"
+  [show]="show"
+  (close)="close.emit()"
+  (submit)="onSubmit()"
+>
+  <!-- Formulário -->
+  <form class="grid grid-cols-1 gap-6" [formGroup]="cardForm">
+
+    <app-modal-input
+      inputName="codeCard"
+      type="text"
+      placeholder="Digite o código do seu bingo"
+      label="Código Bingo"
+      formControlName="codeCard"
+    ></app-modal-input>
+
+  </form>
+</app-modal-layout>

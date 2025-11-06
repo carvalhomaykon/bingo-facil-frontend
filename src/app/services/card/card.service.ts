@@ -13,6 +13,14 @@ export interface Card{
   status: string;
 }
 
+export interface NumbersCard{
+  number: {
+    value: number;
+  };
+  row: number;
+  column: number;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -34,4 +42,13 @@ export class CardService {
       }
     );
   }
+
+  getNumbersCardByCodeCard(codeCard:string): Observable<NumbersCard[]>{
+    return this.http.get<NumbersCard[]>(`${this.apiUrl}/${codeCard}/numbers-card`);
+  }
+
+  getCardByCodeCard(codeCard: string): Observable<Card>{
+    return this.http.get<Card>(`${this.apiUrl}/code-card/${codeCard}`);
+  }
+
 }

@@ -35,7 +35,6 @@ export class ProjectComponent implements OnInit, OnChanges {
     private router: Router,
     private projectService: ProjectService,
     private fb: FormBuilder,
-    // Removida a injeção direta de WorkspaceComponent: use @Output() para comunicação com o pai.
   ){}
 
   ngOnInit(): void{

@@ -6,6 +6,7 @@ import { ProjectComponent } from '../project/project.component';
 import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { Router, RouterLink } from '@angular/router';
+import { CardComponent } from '../card/card.component';
 
 @Component({
   selector: 'app-workspace',
@@ -14,7 +15,8 @@ import { Router, RouterLink } from '@angular/router';
     CommonModule,
     FooterComponent,
     NavbarComponent,
-    ProjectComponent
+    ProjectComponent,
+    CardComponent
   ],
   templateUrl: './workspace.component.html',
   styleUrl: './workspace.component.scss'
@@ -22,6 +24,7 @@ import { Router, RouterLink } from '@angular/router';
 export class WorkspaceComponent implements OnInit{
 
   showModalProject = false;
+  showModalCard = false;
 
   projets: Project[] = [];
   private subscription!: Subscription;
@@ -57,6 +60,14 @@ export class WorkspaceComponent implements OnInit{
 
   closeModalProjetc() {
     this.showModalProject = false;
+  }
+
+  openModalCard() {
+    this.showModalCard = true;
+  }
+
+  closeModalCard() {
+    this.showModalCard = false;
   }
 
   navigateToProject(projectId: number): void {
