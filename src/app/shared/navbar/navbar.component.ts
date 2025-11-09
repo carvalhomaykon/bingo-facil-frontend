@@ -4,13 +4,15 @@ import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { AuthService } from '../../services/auth/auth.service';
 import { authGuard } from '../../auth.guard';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
   imports: [
-    RouterLink
-  ],
+    RouterLink,
+    NgClass
+],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss'
 })
@@ -20,6 +22,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
   @Output("logout") submit = new EventEmitter();
 
   isFirstPage = false;
+  isMenuOpen = false;
+  username: string = '';
   private routerSubscription!: Subscription;
 
   constructor(
@@ -29,6 +33,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.checkCurrentRoute();
+    this.getUsername();
 
     this.routerSubscription = this.router.events
       .pipe(
@@ -36,13 +41,12 @@ export class NavbarComponent implements OnInit, OnDestroy {
       ).subscribe((event: NavigationEnd) => {
         this.checkCurrentRoute();
       })
-    
   }
 
   checkCurrentRoute(): void{
-    const currentUrl = this.router.url.split('?')[0];
+    const currentUrl = this.router.url.split(/[?#]/)[0];
 
-    this.isFirstPage = currentUrl === '/';
+    this.isFirstPage = currentUrl === '/' || currentUrl === '';
   }
 
   ngOnDestroy(): void {
@@ -51,9 +55,25 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
   }
 
+  getUsername(): void{
+    this.authService.getUsername().subscribe({
+      next: username => {
+        this.username = username;
+      }
+    });
+  }
+
   logout(){
     this.authService.logout();
     this.router.navigate(["/"])
+  }
+
+  toggleMenu(): void {
+    this.isMenuOpen = !this.isMenuOpen;
+  }
+
+  closeMenu(): void {
+    this.isMenuOpen = false;
   }
 
 }
