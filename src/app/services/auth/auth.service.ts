@@ -43,5 +43,11 @@ export class AuthService {
   signup(useData: any): Observable<any> {
     return this.http.post<any> (this.apiUrl, useData);
   }
+
+  getUsername(): Observable<any>{
+    return this.http.get (`${this.apiUrl}/username`, {
+      responseType: 'text'
+    });
+  }
   
 }
