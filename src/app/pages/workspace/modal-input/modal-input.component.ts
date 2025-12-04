@@ -1,6 +1,7 @@
 import { Component, forwardRef, Input, input } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { NgxMaskDirective } from 'ngx-mask';
 
 @Component({
   selector: 'app-modal-input',

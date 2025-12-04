@@ -2,12 +2,13 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { flatMap } from 'rxjs'
+import { ToastComponent } from '../../toast/toast.component';
 @Component({
   selector: 'app-modal-layout',
   standalone: true,
   imports: [
     RouterModule,
-    CommonModule
+    CommonModule,
   ],
   templateUrl: './modal-layout.component.html',
   styleUrl: './modal-layout.component.scss'

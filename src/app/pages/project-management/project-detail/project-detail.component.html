@@ -46,9 +46,13 @@
         <h2 class="text-lg font-semibold text-gray-700 dark:text-gray-200">
           Descrição
         </h2>
-        <p class="text-gray-600 dark:text-gray-300 mt-1">
-          {{ project.description }}
-        </p>
+        @if (project.description) {
+          <p class="text-gray-600 dark:text-gray-300 mt-1">
+            {{ project.description }}
+          </p>
+        } @else {
+          <p class="text-gray-500 dark:text-gray-400 italic">Sem descrição.</p>
+        }
       </div>
 
       <div class="grid grid-cols-2 gap-6 mt-4">
@@ -107,7 +111,11 @@
                   class="inline-block mt-2 px-3 py-1 text-xs font-semibold rounded-full self-start
                   bg-yellow-100 text-yellow-800 dark:bg-yellow-700 dark:text-yellow-200"
                   >
-                  {{ award.styleAward }}
+                  @if (award.styleAward == "FULL_CARD"){
+                    Cartela Cheia
+                  } @else {
+                    Quino
+                  }
                 </span>
               </div>
           
@@ -219,5 +227,7 @@
   [projectToEdit]="projectToEdit">
 > 
 </app-project>
+
+<app-toast></app-toast>
 
 <app-footer></app-footer>

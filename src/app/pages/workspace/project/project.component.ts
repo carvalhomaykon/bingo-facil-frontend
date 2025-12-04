@@ -13,8 +13,8 @@ import { CommonModule } from '@angular/common';
     CommonModule,
     ReactiveFormsModule,
     ModalLayoutComponent,
-    ModalInputComponent
-],
+    ModalInputComponent,
+  ],
   templateUrl: './project.component.html',
   styleUrl: './project.component.scss'
 })
@@ -24,11 +24,8 @@ export class ProjectComponent implements OnInit, OnChanges {
   isEditing = false;
 
   @Input() projectToEdit: Project | null = null;
-  
   @Input() show = false;
-  
   @Output() close = new EventEmitter<void>();
-  
   @Output() projectSaved = new EventEmitter<Project>();
 
   constructor(
@@ -41,7 +38,6 @@ export class ProjectComponent implements OnInit, OnChanges {
     this.initializeForm();
   }
   
-
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['projectToEdit'] && this.projectToEdit) {
       this.isEditing = true;
@@ -60,7 +56,7 @@ export class ProjectComponent implements OnInit, OnChanges {
       amountAwards: ['', [Validators.required]],
       date: ['', [Validators.required]],
       time: ['', [Validators.required]],
-      description: ['', [Validators.required]],
+      description: [''],
       value: ['', [Validators.required]],
       status: ['', [Validators.required]],
     });

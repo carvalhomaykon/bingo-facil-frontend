@@ -4,13 +4,13 @@
   (close)="close.emit()"
   (submit)="onSubmit()"
 >
-  <!-- Formulário -->
+
   <form class="grid grid-cols-1 md:grid-cols-2 gap-6" [formGroup]="projectForm">
     
     <app-modal-input
       inputName="name"
       type="text"
-      placeholder="Digite o nome do seu projeto"
+      placeholder="Nome do projeto"
       label="Nome do Projeto"
       formControlName="name"
     ></app-modal-input>
@@ -18,12 +18,11 @@
     <app-modal-input
       inputName="amountAwards"
       type="number"
-      placeholder="Digite a quantidade de prêmios"
+      placeholder="Quantidade de prêmios"
       label="Quantidade de Prêmios"
       formControlName="amountAwards"
     ></app-modal-input>
 
-    <!-- Campo de Data -->
     <app-modal-input
       inputName="date"
       type="date"
@@ -31,7 +30,6 @@
       formControlName="date"
     ></app-modal-input>
 
-    <!-- Campo de Horário -->
     <app-modal-input
       inputName="time"
       type="time"
@@ -47,7 +45,6 @@
       formControlName="value"
     ></app-modal-input>
 
-    <!-- Campo de Status (select) -->
     <div class="flex flex-col">
       <label class="block mb-1 text-sm font-medium text-gray-900 dark:text-gray-200">
         Status do Projeto
@@ -63,7 +60,6 @@
       </select>
     </div>
 
-    <!-- Campo de Descrição ocupando duas colunas -->
     <div class="md:col-span-2">
       <app-modal-input
         inputName="description"

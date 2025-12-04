@@ -1,6 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
 import { isSubscription } from 'rxjs/internal/Subscription';
 
 export interface NumberCard{
@@ -38,14 +38,24 @@ export class CardService {
     private http: HttpClient
   ) { }
 
-  createCard(amount: number, cardData: NumberCard, type: number): Observable<ArrayBuffer>{
-    const url = `${this.apiUrl}/${amount}/${type}`
+  createCard(amount: number, cardData: NumberCard, type: number): Observable<ArrayBuffer> {
+    const url = `${this.apiUrl}/${amount}/${type}`;
 
-    return this.http.post(
-      url, cardData,
-      {
-        responseType: 'arraybuffer'
-      }
+    return this.http.post(url, cardData, { responseType: 'arraybuffer' }).pipe(
+      catchError((error: HttpErrorResponse) => {
+        if (error.error instanceof ArrayBuffer) {
+          const errorText = new TextDecoder('utf-8').decode(error.error);
+          
+          try {
+            const errorObject = JSON.parse(errorText);
+            return throwError(() => errorObject);
+
+          } catch (e) {
+            return throwError(() => new Error(errorText));
+          }
+        }
+        return throwError(() => error);
+      })
     );
   }
 

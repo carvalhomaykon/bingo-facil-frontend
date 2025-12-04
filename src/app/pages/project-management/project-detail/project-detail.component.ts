@@ -9,6 +9,9 @@ import { AwardModalComponent } from "../award-modal/award-modal.component";
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CardService, NumberCard } from '../../../services/card/card.service';
 import { ProjectComponent } from '../../workspace/project/project.component';
+import { HttpErrorResponse } from '@angular/common/http';
+import { NotificationService } from '../../../services/notification/notification.service';
+import { ToastComponent } from '../../toast/toast.component';
 
 @Component({
   selector: 'app-project-detail',
@@ -19,7 +22,8 @@ import { ProjectComponent } from '../../workspace/project/project.component';
     NavbarComponent,
     FormsModule,
     AwardModalComponent,
-    ProjectComponent
+    ProjectComponent,
+    ToastComponent
 ],
   templateUrl: './project-detail.component.html',
   styleUrl: './project-detail.component.scss'
@@ -46,7 +50,8 @@ export class ProjectDetailComponent implements OnInit{
     private projectService: ProjectService,
     private awardService: AwardService,
     private cardService: CardService,
-    private router: Router
+    private router: Router,
+    private notificationService: NotificationService
   ) {}
 
   ngOnInit(): void {
@@ -150,11 +155,10 @@ export class ProjectDetailComponent implements OnInit{
       next: (data: ArrayBuffer) => {
         this.downloadPDF(data, 'cartelas_bingo.pdf');
       },
-      error: (err) => {
-        console.log("Erro ao gerar cartelas: ", err);
+      error: (backendError) => {
+        this.notificationService.show(backendError.mensagem, 'error');
       }
     })
-    console.log("Números de cartelas: ", this.qtdCartelas);
   }
 
   private downloadPDF(data: ArrayBuffer, filename: string): void {
