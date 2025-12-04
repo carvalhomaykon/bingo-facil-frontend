@@ -1,0 +1,12 @@
+@if (currentToast) {
+  <div 
+    class="fixed top-5 right-5 z-50 p-4 rounded-lg shadow-xl max-w-sm transition-opacity duration-300"
+    [ngClass]="getToastClasses(currentToast.type)"
+    role="alert"
+  >
+    <div class="flex items-center">
+      <span class="mr-3 text-xl font-bold">{{ getIcon(currentToast.type) }}</span>
+      <p class="text-sm font-semibold">{{ currentToast.message }}</p>
+    </div>
+  </div>
+}
