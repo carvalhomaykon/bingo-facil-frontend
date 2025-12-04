@@ -5,6 +5,8 @@ import { PrimaryInputComponent } from '../primary-input/primary-input.component'
 import { Router } from '@angular/router';
 import { AuthService } from '../../../services/auth/auth.service';
 import { Form, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { HttpErrorResponse } from '@angular/common/http';
+import { NotificationService } from '../../../services/notification/notification.service';
 
 @Component({
   selector: 'app-signup',
@@ -25,7 +27,8 @@ export class SignupComponent implements OnInit{
   constructor(
     private auth: AuthService,
     private router: Router,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private notificationService: NotificationService
   ){
   }
 
@@ -62,11 +65,15 @@ export class SignupComponent implements OnInit{
     if (this.signupForm.valid){
       this.auth.signup(this.signupForm.value).subscribe({
         next: (response) => {
-          console.log("Cadastro realizado com sucesso!", response);
-          this.router.navigate(["/login"])
+          this.notificationService.show('Cadastro realizado com sucesso! Redirecionando...', 'success');
+          setTimeout(() => {
+            this.router.navigate(["/login"])
+          }, 1000);
         },
-        error: (err) => {
-          console.log("Erro no cadastro.", err)
+        error: (httpError: HttpErrorResponse) => {
+          const errorMessage = httpError.error?.mensagem || 'Erro desconhecido. Tente novamente.';
+          
+          this.notificationService.show(errorMessage, 'error');
         }
       });
     } else{

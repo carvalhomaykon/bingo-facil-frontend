@@ -5,6 +5,8 @@ import { PrimaryInputComponent } from '../primary-input/primary-input.component'
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../../services/auth/auth.service';
+import { NotificationService } from '../../../services/notification/notification.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -25,7 +27,8 @@ export class LoginComponent {
   constructor(
     private router: Router,
     private authService: AuthService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private notificationService: NotificationService
   ){}
 
   ngOnInit(): void{
@@ -40,11 +43,14 @@ export class LoginComponent {
 
     this.authService.login(credentials).subscribe({
       next: (reponse) => {
-        console.log("Lógin realizado com sucesso!");
-        this.router.navigate(["/workspace"]);
+        this.notificationService.show('Login realizado com sucesso! Redirecionando...', 'success');
+          setTimeout(() => {
+            this.router.navigate(["/workspace"])
+          }, 1000);
       },
-      error: (err) => {
-        console.log("Erro no login: ", err);
+      error: (httpError: HttpErrorResponse) => {
+        const errorMessage ='Erro ao realizar login. Tente novamente.';
+        this.notificationService.show(errorMessage, 'error');
       }
     });
     

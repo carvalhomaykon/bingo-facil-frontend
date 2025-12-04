@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
 import { __values } from 'tslib';
 import { tap } from 'rxjs';
 
@@ -41,7 +41,12 @@ export class AuthService {
   }
 
   signup(useData: any): Observable<any> {
-    return this.http.post<any> (this.apiUrl, useData);
+    return this.http.post<any> (this.apiUrl, useData).pipe(
+      catchError(error => {
+        console.error('Erro na requisição:', error);
+        return throwError(() => error);
+      })
+    )
   }
 
   getUsername(): Observable<any>{
