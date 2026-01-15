@@ -7,6 +7,7 @@ import { WorkspaceComponent } from './pages/workspace/workspace/workspace.compon
 import { authGuard } from './auth.guard';
 import { ProjectDetailComponent } from './pages/project-management/project-detail/project-detail.component';
 import { CardDatailComponent } from './pages/card-management/card-datail/card-datail.component';
+import { CardEditorComponent } from './pages/project-management/card-editor/card-editor.component';
 
 export const routes: Routes = [
   {
@@ -31,6 +32,9 @@ export const routes: Routes = [
       },
       {
         path: "projects/:id", component: ProjectDetailComponent
+      },
+      {
+        path: "projects/:id/editcard", component: CardEditorComponent
       },
       {
         path: "card/:codeCard", component: CardDatailComponent
