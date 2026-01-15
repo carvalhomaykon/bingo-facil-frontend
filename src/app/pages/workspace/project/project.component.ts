@@ -59,6 +59,7 @@ export class ProjectComponent implements OnInit, OnChanges {
       description: [''],
       value: ['', [Validators.required]],
       status: ['', [Validators.required]],
+      styleCard: ['', [Validators.required]],
     });
   }
 
@@ -72,6 +73,7 @@ export class ProjectComponent implements OnInit, OnChanges {
       description: project.description,
       value: project.value,
       status: project.status,
+      styleCard: project.styleCard,
       id: project.id
     });
   }

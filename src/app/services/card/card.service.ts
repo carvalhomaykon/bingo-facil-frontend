@@ -27,6 +27,15 @@ export interface NumbersCard{
   column: number;
 }
 
+export interface GridConfig{
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  scaleX: number;
+  scaleY: number
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -38,7 +47,7 @@ export class CardService {
     private http: HttpClient
   ) { }
 
-  createCard(amount: number, cardData: NumberCard, type: number): Observable<ArrayBuffer> {
+  createCard(amount: number, cardData: NumberCard, type: string): Observable<ArrayBuffer> {
     const url = `${this.apiUrl}/${amount}/${type}`;
 
     return this.http.post(url, cardData, { responseType: 'arraybuffer' }).pipe(

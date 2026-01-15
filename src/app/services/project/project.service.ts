@@ -9,7 +9,8 @@ export interface Project{
   status: string;
   amountAwards: number;
   description: string;
-  value: number
+  value: number,
+  styleCard: string
 }
 
 @Injectable({
