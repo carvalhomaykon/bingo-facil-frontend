@@ -39,11 +39,10 @@ export class ProjectDetailComponent implements OnInit{
   showModalProject = false;
 
   project!: Project;
-  projectId!: number; 
+  projectId!: number;
   awards: Award[] = [];
 
   qtdCartelas: number = 0;
-  tipoCartela: string = '';
   
   constructor(
     private route: ActivatedRoute,
@@ -151,7 +150,7 @@ export class ProjectDetailComponent implements OnInit{
       project: this.projectId
     }
 
-    this.cardService.createCard(this.qtdCartelas, cardDataToSend, this.verifycarTypeCard()).subscribe({
+    this.cardService.createCard(this.qtdCartelas, cardDataToSend, this.project.styleCard).subscribe({
       next: (data: ArrayBuffer) => {
         this.downloadPDF(data, 'cartelas_bingo.pdf');
       },
@@ -159,6 +158,10 @@ export class ProjectDetailComponent implements OnInit{
         this.notificationService.show(backendError.mensagem, 'error');
       }
     })
+  }
+
+  navigateToPage(item: number): void {
+    this.router.navigate(['workspace/projects/', item, 'editcard']);
   }
 
   private downloadPDF(data: ArrayBuffer, filename: string): void {
@@ -175,15 +178,6 @@ export class ProjectDetailComponent implements OnInit{
     
     window.URL.revokeObjectURL(url);
     document.body.removeChild(a);
-  }
-
-  verifycarTypeCard(): number{
-    if (this.tipoCartela == "cardUniqForAllAwards"){
-      return 1
-    }
-    else{
-      return 2
-    }
   }
 
 }
