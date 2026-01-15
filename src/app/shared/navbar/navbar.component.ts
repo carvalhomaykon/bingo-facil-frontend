@@ -10,8 +10,7 @@ import { NgClass } from '@angular/common';
   selector: 'app-navbar',
   standalone: true,
   imports: [
-    RouterLink,
-    NgClass
+    RouterLink
 ],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss'
