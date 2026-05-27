@@ -17,7 +17,6 @@ import { ToastComponent } from '../../toast/toast.component';
   selector: 'app-project-detail',
   standalone: true,
   imports: [
-    FooterComponent,
     CommonModule,
     NavbarComponent,
     FormsModule,

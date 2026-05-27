@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 export interface Award{
   id: number;
   name: string;
+  donor: string;
   styleAward: string;
   project: number;
 }

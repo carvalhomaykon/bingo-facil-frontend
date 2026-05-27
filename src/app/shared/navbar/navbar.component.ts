@@ -1,10 +1,9 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { AuthService } from '../../services/auth/auth.service';
 import { authGuard } from '../../auth.guard';
-import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-navbar',
@@ -23,7 +22,11 @@ export class NavbarComponent implements OnInit, OnDestroy {
   isFirstPage = false;
   isMenuOpen = false;
   username: string = '';
+  isUserMenuOpen = false;
+
   private routerSubscription!: Subscription;
+
+  @ViewChild('userMenuContainer') userMenuContainer!: ElementRef;
 
   constructor(
     private router: Router,

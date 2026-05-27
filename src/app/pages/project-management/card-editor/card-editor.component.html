@@ -9,6 +9,19 @@
         </label>
       </div>
 
+      <div class="flex items-center gap-4 mb-4">
+        <button 
+          (click)="addNextCard()" 
+          [disabled]="renderedCardsCount >= totalCards"
+          class="bg-[#009468] hover:bg-emerald-700 text-white font-bold py-2 px-4 rounded shadow disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
+          Adicionar Cartela
+        </button>
+        
+        <span class="text-gray-700 font-medium">
+          Cartelas na tela: {{ renderedCardsCount }} / {{ totalCards }}
+        </span>
+      </div>
+
       <div class="flex gap-2">
         <button (click)="clearCanvas()" class="text-red-600 hover:bg-red-50 px-4 py-2 rounded-lg font-medium transition-colors">
           Limpar
@@ -20,7 +33,7 @@
     </div>
 
     <div class="bg-white rounded-b-xl shadow-2xl p-8 flex justify-center items-center overflow-auto border-x border-b border-gray-200" style="min-height: 500px;">
-      <div class="relative shadow-inner bg-gray-50 p-2 rounded-lg border border-dashed border-gray-300">
+      <div class="canvas-container" style="max-width: 100%; overflow: auto; border: 1px solid #ccc;">
         <canvas id="mainCanvas"></canvas>
       </div>
     </div>

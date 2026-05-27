@@ -36,6 +36,16 @@ export interface GridConfig{
   scaleY: number
 }
 
+export interface CardStyle {
+  rectFill?: string;
+  rectStroke?: string;
+  textColor?: string;
+  fontFamily?: string;
+  headerFill?: string;
+  headerTextColor?: string;
+  borderColor?: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })

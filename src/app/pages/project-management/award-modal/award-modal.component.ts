@@ -38,6 +38,7 @@ export class AwardModalComponent implements OnInit, OnChanges{
     this.formAward = this.fb.group({
       id: [null],
       name: ['', Validators.required],
+      donor: ['', Validators.required],
       styleAward: ['', Validators.required],
       project: [this.idProject],
     })
